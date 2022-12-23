@@ -1,0 +1,935 @@
+package com.sample.rules
+ 
+import com.sample.GUI
+ 
+declare Question
+	question : String
+	answer : String
+end
+
+function void query(Question question, String[] possibleAnswers) {		
+	GUI gui = new GUI(question.getQuestion(), possibleAnswers);
+	gui.waitForAnswer(); question.setAnswer(gui.getAnswer());
+}
+
+function void inform(Question question) {
+	GUI gui = new GUI(question.getQuestion());
+}
+
+/// RULES ///
+
+rule "Init"
+	when
+	then
+		insert(new Question("Do you need to make money?", ""));
+end
+
+rule "question_1_need_make_money"
+	when
+		q : Question(question == "Do you need to make money?"
+			&& answer == "")
+	then
+		query(q, new String[]{"YES", "NO"});
+		update(q);
+end
+
+rule "question_1_need_make_money_no"
+	when
+		q : Question(question == "Do you need to make money?" && answer == "NO")
+	then
+		insert(new Question("Do you have a bit of money to spend?", ""));
+end
+
+rule "question_2_money_to_spend"
+	when
+		q : Question(question == "Do you have a bit of money to spend?"
+			&& answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_2_money_to_spend_no"
+	when
+		q : Question(question == "Do you have a bit of money to spend?" && answer == "NO")
+	then
+		insert(new Question("Do you have artistic talent?", ""));
+end
+
+rule "question_3_artistic_talent"
+	when
+		q : Question(question == "Do you have artistic talent?"
+			&& answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_3_artistic_talent_no"
+	when
+		q : Question(question == "Do you have artistic talent?" && answer == "NO")
+	then
+		insert(new Question("INTERN / APPRENTICE", ""));
+end
+
+rule "end_path_intern_apprentice"
+	when
+		q : Question(question == "INTERN / APPRENTICE" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_3_artistic_talent_yes"
+	when
+		q : Question(question == "Do you have artistic talent?" && answer == "YES")
+	then
+		insert(new Question("PERFORMER / MUSICIAN", ""));
+end
+
+rule "end_path_performer_musician"
+	when
+		q : Question(question == "PERFORMER / MUSICIAN" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_2_money_to_spend_yes"
+	when
+		q : Question(question == "Do you have a bit of money to spend?" && answer == "YES")
+	then
+		insert(new Question("Do you want to stay in Hamilton?", ""));
+end
+
+rule "question_3_stay_in_hamilton"
+	when
+		q : Question(question == "Do you want to stay in Hamilton?"
+			&& answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_3_stay_in_hamilton_no"
+	when
+		q : Question(question == "Do you want to stay in Hamilton?" && answer == "NO")
+	then
+		insert(new Question("WORLD TRAVELLER", ""));
+end
+
+rule "end_path_world_traveller"
+	when
+		q : Question(question == "WORLD TRAVELLER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_3_stay_in_hamilton_yes"
+	when
+		q : Question(question == "Do you want to stay in Hamilton?" && answer == "YES")
+	then
+		insert(new Question("Do you want to use your brain?", ""));
+end
+
+rule "question_4_use_your_brain"
+	when
+		q : Question(question == "Do you want to use your brain?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_4_stay_in_hamilton_no"
+	when
+		q : Question(question == "Do you want to use your brain?" && answer == "NO")
+	then
+		insert(new Question("COUCH POTATO", ""));
+end
+
+rule "end_path_couch_potato"
+	when
+		q : Question(question == "COUCH POTATO" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_4_stay_in_hamilton_yes"
+	when
+		q : Question(question == "Do you want to use your brain?" && answer == "YES")
+	then
+		insert(new Question("SUMMER STUDENT", ""));
+end
+
+rule "end_path_summer_student"
+	when
+		q : Question(question == "SUMMER STUDENT" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_1_need_make_money_yes"
+	when
+		q : Question(question == "Do you need to make money?" && answer == "YES")
+	then
+		insert(new Question("Do you want to use your brain??", ""));
+end
+
+rule "question_2_want_use_your_brain"
+	when
+		q : Question(question == "Do you want to use your brain??" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_2_want_use_your_brain_no"
+	when
+		q : Question(question == "Do you want to use your brain??" && answer == "NO")
+	then
+		insert(new Question("Do you want to work outside?", ""));
+end
+
+rule "question_3_want_to_work_outside"
+	when
+		q : Question(question == "Do you want to work outside?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_3_want_to_work_outside_yes"
+	when
+		q : Question(question == "Do you want to work outside?" && answer == "YES")
+	then
+		insert(new Question("Are you okay with hard physical labour?", ""));
+end
+
+rule "question_4_hard_physical_labour"
+	when
+		q : Question(question == "Are you okay with hard physical labour?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_4_hard_physical_labour_no"
+	when
+		q : Question(question == "Are you okay with hard physical labour?" && answer == "NO")
+	then
+		insert(new Question("Do you like camping?", ""));
+end
+
+rule "question_5_camping"
+	when
+		q : Question(question == "Do you like camping?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_camping_yes"
+	when
+		q : Question(question == "Do you like camping?" && answer == "YES")
+	then
+		insert(new Question("PROVINCIAL PARK EMPLOYEE", ""));
+end
+
+rule "end_path_provincial_park_employee"
+	when
+		q : Question(question == "PROVINCIAL PARK EMPLOYEE" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_camping_no"
+	when
+		q : Question(question == "Do you like camping?" && answer == "NO")
+	then
+		insert(new Question("FRUIT PICKER", ""));
+end
+
+rule "end_path_fruit_picker"
+	when
+		q : Question(question == "FRUIT PICKER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_4_hard_physical_labour_yes"
+	when
+		q : Question(question == "Are you okay with hard physical labour?" && answer == "YES")
+	then
+		insert(new Question("Are you okay with showering infrequently?", ""));
+end
+
+rule "question_5_showering_infrequently"
+	when
+		q : Question(question == "Are you okay with showering infrequently?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_showering_infrequently_no"
+	when
+		q : Question(question == "Are you okay with showering infrequently?" && answer == "NO")
+	then
+		insert(new Question("Do you like animals?", ""));
+end
+
+rule "question_6_animals"
+	when
+		q : Question(question == "Do you like animals?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_animals_yes"
+	when
+		q : Question(question == "Do you like animals?" && answer == "YES")
+	then
+		insert(new Question("FARM LABOURER", ""));
+end
+
+rule "end_path_farm_labourner"
+	when
+		q : Question(question == "FARM LABOURER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_animals_no"
+	when
+		q : Question(question == "Do you like animals?" && answer == "NO")
+	then
+		insert(new Question("LANDSCAPER", ""));
+end
+
+rule "end_path_landscaper"
+	when
+		q : Question(question == "LANDSCAPER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_showering_infrequently_yes"
+	when
+		q : Question(question == "Are you okay with showering infrequently?" && answer == "YES")
+	then
+		insert(new Question("TREE PLANTER", ""));
+end
+
+rule "end_path_tree_planter"
+	when
+		q : Question(question == "TREE PLANTER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_3_want_to_work_outside_no"
+	when
+		q : Question(question == "Do you want to work outside?" && answer == "NO")
+	then
+		insert(new Question("Do you want to work with food / drink?", ""));
+end
+
+rule "question_4_want_to_work_with_food_drink"
+	when
+		q : Question(question == "Do you want to work with food / drink?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_4_want_to_work_with_food_drink_no"
+	when
+		q : Question(question == "Do you want to work with food / drink?" && answer == "NO")
+	then
+		insert(new Question("Are you good at telling people what to do?", ""));
+end
+
+rule "question_5_telling_people_what_to_do"
+	when
+		q : Question(question == "Are you good at telling people what to do?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_telling_people_what_to_do_no"
+	when
+		q : Question(question == "Are you good at telling people what to do?" && answer == "NO")
+	then
+		insert(new Question("Are you fine with travelling?", ""));
+end
+
+rule "question_6_fine_with_travelling"
+	when
+		q : Question(question == "Are you fine with travelling?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_fine_with_travelling_no"
+	when
+		q : Question(question == "Are you fine with travelling?" && answer == "NO")
+	then
+		insert(new Question("Are you afraid of needles?", ""));
+end
+
+rule "question_7_afraid_of_needles"
+	when
+		q : Question(question == "Are you afraid of needles?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_7_afraid_of_needles_yes"
+	when
+		q : Question(question == "Are you afraid of needles?" && answer == "YES")
+	then
+		insert(new Question("SALES CLERK", ""));
+end
+
+rule "end_path_sales_clerk"
+	when
+		q : Question(question == "SALES CLERK" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_7_afraid_of_needles_no"
+	when
+		q : Question(question == "Are you afraid of needles?" && answer == "NO")
+	then
+		insert(new Question("MEDICAL TEST SUBJECT", ""));
+end
+
+rule "end_path_medical_test_subject"
+	when
+		q : Question(question == "MEDICAL TEST SUBJECT" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_fine_with_travelling_yes"
+	when
+		q : Question(question == "Are you fine with travelling?" && answer == "YES")
+	then
+		insert(new Question("BRAND PROMOTER", ""));
+end
+
+rule "end_path_brand_promoter"
+	when
+		q : Question(question == "BRAND PROMOTER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_telling_people_what_to_do_yes"
+	when
+		q : Question(question == "Are you good at telling people what to do?" && answer == "YES")
+	then
+		insert(new Question("Are bulky?", ""));
+end
+
+rule "question_6_bulky"
+	when
+		q : Question(question == "Are bulky?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_bulky_no"
+	when
+		q : Question(question == "Are bulky?" && answer == "NO")
+	then
+		insert(new Question("Are you a good swimmer?", ""));
+end
+
+rule "question_7_good_swimmer"
+	when
+		q : Question(question == "Are you a good swimmer?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_7_good_swimmer_no"
+	when
+		q : Question(question == "Are you a good swimmer?" && answer == "NO")
+	then
+		insert(new Question("SPORT REFEREE", ""));
+end
+
+rule "end_path_sport_referee"
+	when
+		q : Question(question == "SPORT REFEREE" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_7_good_swimmer_yes"
+	when
+		q : Question(question == "Are you a good swimmer?" && answer == "YES")
+	then
+		insert(new Question("LIFEGUARD", ""));
+end
+
+rule "end_path_lifeguard"
+	when
+		q : Question(question == "LIFEGUARD" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_bulky_yes"
+	when
+		q : Question(question == "Are bulky?" && answer == "YES")
+	then
+		insert(new Question("SECUROTY GUARD / BOUNCER", ""));
+end
+
+rule "end_path_security_guard"
+	when
+		q : Question(question == "SECUROTY GUARD / BOUNCER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_4_want_to_work_with_food_drink_yes"
+	when
+		q : Question(question == "Do you want to work with food / drink?" && answer == "YES")
+	then
+		insert(new Question("Do you have good people skills?", ""));
+end
+
+rule "question_5_good_people_skills"
+	when
+		q : Question(question == "Do you have good people skills?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_good_people_skills_no"
+	when
+		q : Question(question == "Do you have good people skills?" && answer == "NO")
+	then
+		insert(new Question("Do you mind getting a bit greasy?", ""));
+end
+
+rule "question_6_getting_a_bit_greasy"
+	when
+		q : Question(question == "Do you mind getting a bit greasy?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_getting_a_bit_greasy_yes"
+	when
+		q : Question(question == "Do you mind getting a bit greasy?" && answer == "YES")
+	then
+		insert(new Question("GROCERY STORE EMPLOYEE", ""));
+end
+
+rule "end_path_grocery_store_employee"
+	when
+		q : Question(question == "GROCERY STORE EMPLOYEE" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_getting_a_bit_greasy_no"
+	when
+		q : Question(question == "Do you mind getting a bit greasy?" && answer == "NO")
+	then
+		insert(new Question("Do you like burgers?", ""));
+end
+
+rule "question_7_like_burgers"
+	when
+		q : Question(question == "Do you like burgers?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_7_like_burgers_no"
+	when
+		q : Question(question == "Do you like burgers?" && answer == "NO")
+	then
+		insert(new Question("PREP COOK / DISHWASHER", ""));
+end
+
+rule "end_path_prep_cook"
+	when
+		q : Question(question == "PREP COOK / DISHWASHER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_7_like_burgers_yes"
+	when
+		q : Question(question == "Do you like burgers?" && answer == "YES")
+	then
+		insert(new Question("FAST FOOD RESTAURANT EMPLOYEE", ""));
+end
+
+rule "end_path_fast_food_restaurant_employee"
+	when
+		q : Question(question == "FAST FOOD RESTAURANT EMPLOYEE" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_good_people_skills_yes"
+	when
+		q : Question(question == "Do you have good people skills?" && answer == "YES")
+	then
+		insert(new Question("Do you know the difference between a Manhattan and an old-fashioned?", ""));
+end
+
+rule "question_6_difference_between_manhattan"
+	when
+		q : Question(question == "Do you know the difference between a Manhattan and an old-fashioned?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_difference_between_manhattan_no"
+	when
+		q : Question(question == "Do you know the difference between a Manhattan and an old-fashioned?" && answer == "NO")
+	then
+		insert(new Question("BARRISTA", ""));
+end
+
+rule "end_path_barrista"
+	when
+		q : Question(question == "BARRISTA" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_difference_between_manhattan_yes"
+	when
+		q : Question(question == "Do you know the difference between a Manhattan and an old-fashioned?" && answer == "YES")
+	then
+		insert(new Question("BARTENDER", ""));
+end
+
+rule "end_path_bartender"
+	when
+		q : Question(question == "BARTENDER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_2_want_use_your_brain_yes"
+	when
+		q : Question(question == "Do you want to use your brain??" && answer == "YES")
+	then
+		insert(new Question("Do you work in an office / lab?", ""));
+end
+
+rule "question_3_work_in_an_office"
+	when
+		q : Question(question == "Do you work in an office / lab?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_3_work_in_an_office_no"
+	when
+		q : Question(question == "Do you work in an office / lab?" && answer == "NO")
+	then
+		insert(new Question("Do you want to be your own boss?", ""));
+end
+
+rule "question_4_be_your_own_boss"
+	when
+		q : Question(question == "Do you want to be your own boss?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_4_be_your_own_boss_no"
+	when
+		q : Question(question == "Do you want to be your own boss?" && answer == "NO")
+	then
+		insert(new Question("Do you want to work outside??", ""));
+end
+
+rule "question_5_want_to_work_outside"
+	when
+		q : Question(question == "Do you want to work outside??" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_want_to_work_outside_no"
+	when
+		q : Question(question == "Do you want to work outside??" && answer == "NO")
+	then
+		insert(new Question("MUSEUM INTERPRETER", ""));
+end
+
+rule "end_path_museum_interpreter"
+	when
+		q : Question(question == "MUSEUM INTERPRETER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_want_to_work_outside_yes"
+	when
+		q : Question(question == "Do you want to work outside??" && answer == "YES")
+	then
+		insert(new Question("SUMMER CAMP LEADER", ""));
+end
+
+rule "end_path_summer_camp_leader"
+	when
+		q : Question(question == "SUMMER CAMP LEADER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_4_be_your_own_boss_yes"
+	when
+		q : Question(question == "Do you want to be your own boss?" && answer == "YES")
+	then
+		insert(new Question("Are you good at academics?", ""));
+end
+
+rule "question_5_good_at_academics"
+	when
+		q : Question(question == "Are you good at academics?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_good_at_academics_no"
+	when
+		q : Question(question == "Are you good at academics?" && answer == "NO")
+	then
+		insert(new Question("Are you artistic?", ""));
+end
+
+rule "question_6_are you_artistic"
+	when
+		q : Question(question == "Are you artistic?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_are you_artistic_no"
+	when
+		q : Question(question == "Are you artistic?" && answer == "NO")
+	then
+		insert(new Question("SMALL-BUSINESS OWNER", ""));
+end
+
+rule "end_path_small_business_owner"
+	when
+		q : Question(question == "SMALL-BUSINESS OWNER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_are you_artistic_yes"
+	when
+		q : Question(question == "Are you artistic?" && answer == "YES")
+	then
+		insert(new Question("PERFORMER / BUSKER", ""));
+end
+
+rule "end_path_performer"
+	when
+		q : Question(question == "PERFORMER / BUSKER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_good_at_academics_yes"
+	when
+		q : Question(question == "Are you good at academics?" && answer == "YES")
+	then
+		insert(new Question("Are you good at teaching?", ""));
+end
+
+rule "question_6_good_at_teaching"
+	when
+		q : Question(question == "Are you good at teaching?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_good_at_teaching_no"
+	when
+		q : Question(question == "Are you good at teaching?" && answer == "NO")
+	then
+		insert(new Question("USRA RECIPIENT", ""));
+end
+
+rule "end_path_usra_recipient"
+	when
+		q : Question(question == "USRA RECIPIENT" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_good_at_teaching_yes"
+	when
+		q : Question(question == "Are you good at teaching?" && answer == "YES")
+	then
+		insert(new Question("TUTOR", ""));
+end
+
+rule "end_path_tutor"
+	when
+		q : Question(question == "TUTOR" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_3_work_in_an_office_yes"
+	when
+		q : Question(question == "Do you work in an office / lab?" && answer == "YES")
+	then
+		insert(new Question("Do you want to work at McMaster?", ""));
+end
+
+rule "question_4_work_at_mcmaster"
+	when
+		q : Question(question == "Do you want to work at McMaster?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_4_work_in_an_office_no"
+	when
+		q : Question(question == "Do you want to work at McMaster?" && answer == "NO")
+	then
+		insert(new Question("Are you decent with computers?", ""));
+end
+
+rule "question_5_decent_with_computers"
+	when
+		q : Question(question == "Are you decent with computers?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_decent_with_computers_no"
+	when
+		q : Question(question == "Are you decent with computers?" && answer == "NO")
+	then
+		insert(new Question("CIVIL SERVANT", ""));
+end
+
+rule "end_path_civil_servant"
+	when
+		q : Question(question == "CIVIL SERVANT" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_decent_with_computers_yes"
+	when
+		q : Question(question == "Are you decent with computers?" && answer == "YES")
+	then
+		insert(new Question("Are you good at coding?", ""));
+end
+
+rule "question_6_good_at_coding"
+	when
+		q : Question(question == "Are you good at coding?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_6_good_at_coding_no"
+	when
+		q : Question(question == "Are you good at coding?" && answer == "NO")
+	then
+		insert(new Question("ADMIN ASSISTANT / SECRETARY", ""));
+end
+
+rule "end_path_admin_assistant"
+	when
+		q : Question(question == "ADMIN ASSISTANT / SECRETARY" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_6_good_at_coding_yes"
+	when
+		q : Question(question == "Are you good at coding?" && answer == "YES")
+	then
+		insert(new Question("SOFTWARE DEVELOPER", ""));
+end
+
+rule "end_path_software_developer"
+	when
+		q : Question(question == "SOFTWARE DEVELOPER" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_4_work_in_an_office_yes"
+	when
+		q : Question(question == "Do you want to work at McMaster?" && answer == "YES")
+	then
+		insert(new Question("Are you good at science?", ""));
+end
+
+rule "question_5_good_at_science"
+	when
+		q : Question(question == "Are you good at science?" && answer == "")
+	then
+		query(q, new String[]{"YES","NO"});
+		update(q);
+end
+
+rule "question_5_good_at_science_no"
+	when
+		q : Question(question == "Are you good at science?" && answer == "NO")
+	then
+		insert(new Question("MCMASTER OFFICE ASSISTANT", ""));
+end
+
+rule "end_path_mcmaster_office_assistant"
+	when
+		q : Question(question == "MCMASTER OFFICE ASSISTANT" && answer == "")
+	then
+		inform(q);
+end
+
+rule "question_5_good_at_science_yes"
+	when
+		q : Question(question == "Are you good at science?" && answer == "YES")
+	then
+		insert(new Question("RESEARCH ASSISTANT", ""));
+end
+
+rule "end_path_mcmaster_research_assistant"
+	when
+		q : Question(question == "RESEARCH ASSISTANT" && answer == "")
+	then
+		inform(q);
+end
